@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Calculadora de Média</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 40px;
+      }
+      form {
+        width: 300px;
+        margin: 0 auto;
+      }
+      input {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 10px;
+        box-sizing: border-box;
+      }
+      button {
+        width: 100%;
+        padding: 10px;
+        background-color: #28a745;
+        color: white;
+        border: none;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <form action="/calcular" method="POST">
+      <h2>Insira quatro números</h2>
+      <input
+        type="number"
+        name="num1"
+        placeholder="Primeiro número"
+        required
+        step="any"
+      />
+      <input
+        type="number"
+        name="num2"
+        placeholder="Segundo número"
+        required
+        step="any"
+      />
+      <input
+        type="number"
+        name="num3"
+        placeholder="Terceiro número"
+        required
+        step="any"
+      />
+      <input
+        type="number"
+        name="num4"
+        placeholder="Quarto número"
+        required
+        step="any"
+      />
+      <button type="submit">Calcular Média</button>
+    </form>
+  </body>
+</html>
