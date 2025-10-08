@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Calculadora da Lei de Ohm</title>
+    <style>
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        background-color: #e9ecef;
+      }
+      .card {
+        background: #fff;
+        border-radius: 0.5rem;
+        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+        padding: 2rem;
+        width: 100%;
+        max-width: 400px;
+      }
+      h2 {
+        text-align: center;
+        color: #343a40;
+        margin-bottom: 1.5rem;
+      }
+      .input-group {
+        margin-bottom: 1rem;
+      }
+      label {
+        display: block;
+        font-weight: 500;
+        color: #495057;
+        margin-bottom: 0.5rem;
+      }
+      input {
+        display: block;
+        width: 100%;
+        padding: 0.75rem;
+        font-size: 1rem;
+        border: 1px solid #ced4da;
+        border-radius: 0.25rem;
+        box-sizing: border-box;
+      }
+      button {
+        width: 100%;
+        padding: 0.75rem;
+        font-size: 1rem;
+        color: #fff;
+        background-color: #28a745;
+        border: none;
+        border-radius: 0.25rem;
+        cursor: pointer;
+        transition: background-color 0.2s;
+      }
+      button:hover {
+        background-color: #218838;
+      }
+      .description {
+        text-align: center;
+        color: #6c757d;
+        margin-bottom: 1.5rem;
+        font-size: 0.95rem;
+      }
+      .help-text {
+        color: #6c757d;
+        font-size: 0.8rem;
+        margin-top: 0.25rem;
+      }
+      .info-box {
+        margin-top: 2rem;
+        padding: 1rem;
+        background-color: #f8f9fa;
+        border-radius: 0.25rem;
+        border-left: 4px solid #28a745;
+      }
+      .info-box h3 {
+        margin-top: 0;
+        color: #343a40;
+      }
+      .info-box ul {
+        text-align: left;
+        margin: 0;
+        padding-left: 1.5rem;
+      }
+      .info-box li {
+        margin-bottom: 0.25rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <h2>Calculadora de Resistência</h2>
+      <p class="description">
+        Use a Lei de Ohm (R = V / I) para calcular a resistência elétrica
+      </p>
+      <form action="/calcular-resistencia" method="POST" id="calculadoraForm">
+        <div class="input-group">
+          <label for="tensao">Tensão (Volts):</label>
+          <input
+            type="number"
+            id="tensao"
+            name="tensao"
+            placeholder="Digite a tensão (V)"
+            required
+            step="0.001"
+            min="-1000000"
+            max="1000000"
+          />
+          <small class="help-text"
+            >Valores positivos ou negativos permitidos</small
+          >
+        </div>
+        <div class="input-group">
+          <label for="corrente">Corrente (Amperes):</label>
+          <input
+            type="number"
+            id="corrente"
+            name="corrente"
+            placeholder="Digite a corrente (A)"
+            required
+            step="0.001"
+            min="-1000000"
+            max="1000000"
+          />
+          <small class="help-text">Não pode ser zero</small>
+        </div>
+        <button type="submit">Calcular Resistência (Ω)</button>
+      </form>
+
+      <div class="info-box">
+        <h3>Fórmula da Lei de Ohm</h3>
+        <p><strong>R = V / I</strong></p>
+        <ul>
+          <li><strong>R:</strong> Resistência (Ohms - Ω)</li>
+          <li><strong>V:</strong> Tensão (Volts - V)</li>
+          <li><strong>I:</strong> Corrente (Amperes - A)</li>
+        </ul>
+      </div>
+    </div>
+
+    <script>
+      document
+        .getElementById("calculadoraForm")
+        .addEventListener("submit", function (e) {
+          const corrente = parseFloat(
+            document.getElementById("corrente").value
+          );
+
+          if (corrente === 0) {
+            e.preventDefault();
+            alert(
+              "A corrente não pode ser zero, pois causaria divisão por zero!"
+            );
+            return false;
+          }
+
+          if (isNaN(corrente)) {
+            e.preventDefault();
+            alert(
+              "Por favor, insira um valor numérico válido para a corrente."
+            );
+            return false;
+          }
+        });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,25 @@
+{
+  "name": "lei_de_ohm_calculadora",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "lei-de-ohm",
+    "calculadora",
+    "fisica",
+    "resistencia"
+  ],
+  "author": "",
+  "license": "ISC",
+  "description": "Calculadora da Lei de Ohm para calcular resistência elétrica",
+  "dependencies": {
+    "express": "^5.1.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
