@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exemplo de Uso da API</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .api-result {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 5px;
+            padding: 1rem;
+            margin: 1rem 0;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+        .btn {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .btn:hover {
+            background: #0056b3;
+        }
+        .status {
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 Teste da API de Data/Hora</h1>
+        <p>Esta página demonstra como consumir a API do servidor de data/hora.</p>
+        
+        <div>
+            <button class="btn" onclick="testarAPI()">🔄 Testar API</button>
+            <button class="btn" onclick="testarContinuo()">⏰ Teste Contínuo</button>
+            <button class="btn" onclick="pararTeste()">⏹️ Parar</button>
+        </div>
+        
+        <div id="status"></div>
+        <div id="resultado" class="api-result">Clique em "Testar API" para ver os dados...</div>
+        
+        <h2>📝 Exemplo de Código</h2>
+        <div class="api-result">// JavaScript - Fetch API
+fetch('/api/datetime')
+  .then(response => response.json())
+  .then(data => {
+    console.log('✅ Sucesso:', data);
+    console.log('📅 Data:', data.data.data);
+    console.log('🕐 Hora:', data.data.hora);
+  })
+  .catch(error => {
+    console.error('❌ Erro:', error);
+  });
+
+// jQuery (se disponível)
+$.get('/api/datetime')
+  .done(function(data) {
+    console.log('✅ Data recebida:', data);
+  })
+  .fail(function() {
+    console.log('❌ Erro na requisição');
+  });</div>
+
+        <h2>🔗 Links Úteis</h2>
+        <ul>
+            <li><a href="/" target="_blank">🏠 Página Principal</a></li>
+            <li><a href="/simples" target="_blank">📄 Versão Simples</a></li>
+            <li><a href="/api/datetime" target="_blank">🔗 API JSON Direta</a></li>
+        </ul>
+    </div>
+
+    <script>
+        let intervalId = null;
+        
+        async function testarAPI() {
+            const statusDiv = document.getElementById('status');
+            const resultadoDiv = document.getElementById('resultado');
+            
+            try {
+                statusDiv.innerHTML = '<div class="status">🔄 Fazendo requisição...</div>';
+                
+                const response = await fetch('/api/datetime');
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const data = await response.json();
+                
+                statusDiv.innerHTML = '<div class="status success">✅ Requisição bem-sucedida!</div>';
+                resultadoDiv.textContent = JSON.stringify(data, null, 2);
+                
+                // Destacar informações importantes
+                const info = data.data;
+                statusDiv.innerHTML += `
+                    <div class="status success">
+                        <strong>📅 ${info.data}</strong><br>
+                        <strong>🕐 ${info.hora}</strong><br>
+                        🌍 ${info.timezone}
+                    </div>
+                `;
+                
+            } catch (error) {
+                console.error('Erro:', error);
+                statusDiv.innerHTML = `<div class="status error">❌ Erro: ${error.message}</div>`;
+                resultadoDiv.textContent = `Erro na requisição: ${error.message}`;
+            }
+        }
+        
+        function testarContinuo() {
+            pararTeste(); // Para qualquer teste anterior
+            
+            testarAPI(); // Primeira execução
+            intervalId = setInterval(testarAPI, 2000); // A cada 2 segundos
+            
+            document.getElementById('status').innerHTML = 
+                '<div class="status success">⏰ Teste contínuo iniciado (atualização a cada 2 segundos)</div>';
+        }
+        
+        function pararTeste() {
+            if (intervalId) {
+                clearInterval(intervalId);
+                intervalId = null;
+                document.getElementById('status').innerHTML = 
+                    '<div class="status">⏹️ Teste contínuo parado</div>';
+            }
+        }
+        
+        // Auto-executar um teste ao carregar a página
+        window.addEventListener('load', () => {
+            setTimeout(testarAPI, 1000);
+        });
+    </script>
+</body>
+</html>
