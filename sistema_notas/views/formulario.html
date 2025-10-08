@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sistema de Cálculo de Notas</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+      }
+
+      .card {
+        background: #fff;
+        border-radius: 20px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        padding: 2.5rem;
+        width: 100%;
+        max-width: 500px;
+        backdrop-filter: blur(10px);
+      }
+
+      .header {
+        text-align: center;
+        margin-bottom: 2rem;
+      }
+
+      .header h1 {
+        color: #2c3e50;
+        margin-bottom: 0.5rem;
+        font-size: 2.2rem;
+        font-weight: 700;
+      }
+
+      .header .subtitle {
+        color: #7f8c8d;
+        font-size: 1.1rem;
+        margin-bottom: 1rem;
+      }
+
+      .criterio-info {
+        background: linear-gradient(135deg, #3498db, #2980b9);
+        color: white;
+        padding: 1rem;
+        border-radius: 10px;
+        margin-bottom: 2rem;
+        text-align: center;
+      }
+
+      .criterio-info .criterio-title {
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+      }
+
+      .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .input-group {
+        margin-bottom: 1.5rem;
+      }
+
+      .input-group.full-width {
+        grid-column: 1 / -1;
+      }
+
+      label {
+        display: block;
+        font-weight: 600;
+        color: #34495e;
+        margin-bottom: 0.5rem;
+        font-size: 0.95rem;
+      }
+
+      input[type="text"],
+      input[type="number"] {
+        width: 100%;
+        padding: 1rem;
+        font-size: 1rem;
+        border: 2px solid #e1e8ed;
+        border-radius: 10px;
+        transition: all 0.3s ease;
+        background: #f8f9fa;
+      }
+
+      input[type="text"]:focus,
+      input[type="number"]:focus {
+        outline: none;
+        border-color: #3498db;
+        background: #fff;
+        box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        transform: translateY(-1px);
+      }
+
+      .notas-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+        margin-bottom: 2rem;
+      }
+
+      .nota-input {
+        position: relative;
+      }
+
+      .nota-input label {
+        text-align: center;
+        color: #2c3e50;
+        font-weight: 600;
+      }
+
+      .nota-input input {
+        text-align: center;
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #2c3e50;
+      }
+
+      .help-text {
+        color: #7f8c8d;
+        font-size: 0.85rem;
+        margin-top: 0.25rem;
+        text-align: center;
+      }
+
+      .submit-btn {
+        width: 100%;
+        padding: 1.2rem;
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #fff;
+        background: linear-gradient(135deg, #27ae60, #2ecc71);
+        border: none;
+        border-radius: 15px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
+        margin-top: 1rem;
+      }
+
+      .submit-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(39, 174, 96, 0.4);
+      }
+
+      .submit-btn:active {
+        transform: translateY(0);
+      }
+
+      .info-section {
+        background: #f8f9fa;
+        border-radius: 15px;
+        padding: 1.5rem;
+        margin-top: 2rem;
+        border-left: 4px solid #3498db;
+      }
+
+      .info-section h3 {
+        color: #2c3e50;
+        margin-bottom: 1rem;
+        font-size: 1.1rem;
+      }
+
+      .criterios-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      .criterios-list li {
+        padding: 0.5rem 0;
+        border-bottom: 1px solid #ecf0f1;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .criterios-list li:last-child {
+        border-bottom: none;
+      }
+
+      .status-badge {
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 600;
+      }
+
+      .excelente {
+        background: #d4edda;
+        color: #155724;
+      }
+      .merito {
+        background: #cce7ff;
+        color: #0056b3;
+      }
+      .aprovado {
+        background: #d1ecf1;
+        color: #0c5460;
+      }
+      .reprovado {
+        background: #f8d7da;
+        color: #721c24;
+      }
+
+      @media (max-width: 768px) {
+        .card {
+          margin: 10px;
+          padding: 2rem;
+        }
+
+        .form-row {
+          grid-template-columns: 1fr;
+        }
+
+        .notas-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .header h1 {
+          font-size: 1.8rem;
+        }
+      }
+
+      /* Animações */
+      @keyframes slideIn {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .card {
+        animation: slideIn 0.6s ease-out;
+      }
+
+      /* Validação visual */
+      .input-valid {
+        border-color: #27ae60 !important;
+        background: #d4edda !important;
+      }
+
+      .input-invalid {
+        border-color: #e74c3c !important;
+        background: #f8d7da !important;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <div class="header">
+        <h1>📚 Sistema de Notas</h1>
+        <p class="subtitle">Calcule a média e verifique a aprovação</p>
+      </div>
+
+      <div class="criterio-info">
+        <div class="criterio-title">🎯 Critério de Aprovação</div>
+        <div>Média Final ≥ 6,0 (seis)</div>
+      </div>
+
+      <form id="notasForm" action="/calcular-media" method="POST">
+        <div class="form-row">
+          <div class="input-group">
+            <label for="nomeAluno">👤 Nome do Aluno:</label>
+            <input
+              type="text"
+              id="nomeAluno"
+              name="nomeAluno"
+              placeholder="Digite o nome do aluno"
+            />
+          </div>
+          <div class="input-group">
+            <label for="disciplina">📖 Disciplina:</label>
+            <input
+              type="text"
+              id="disciplina"
+              name="disciplina"
+              placeholder="Ex: Matemática, Português..."
+            />
+          </div>
+        </div>
+
+        <div class="notas-grid">
+          <div class="nota-input">
+            <label for="nota1">1ª Nota</label>
+            <input
+              type="number"
+              id="nota1"
+              name="nota1"
+              placeholder="0.0"
+              required
+              min="0"
+              max="10"
+              step="0.1"
+            />
+            <div class="help-text">0 - 10</div>
+          </div>
+
+          <div class="nota-input">
+            <label for="nota2">2ª Nota</label>
+            <input
+              type="number"
+              id="nota2"
+              name="nota2"
+              placeholder="0.0"
+              required
+              min="0"
+              max="10"
+              step="0.1"
+            />
+            <div class="help-text">0 - 10</div>
+          </div>
+
+          <div class="nota-input">
+            <label for="nota3">3ª Nota</label>
+            <input
+              type="number"
+              id="nota3"
+              name="nota3"
+              placeholder="0.0"
+              required
+              min="0"
+              max="10"
+              step="0.1"
+            />
+            <div class="help-text">0 - 10</div>
+          </div>
+        </div>
+
+        <button type="submit" class="submit-btn">
+          🧮 Calcular Média e Verificar Aprovação
+        </button>
+      </form>
+
+      <div class="info-section">
+        <h3>📊 Classificação por Desempenho</h3>
+        <ul class="criterios-list">
+          <li>
+            <span>Média 9,0 - 10,0</span>
+            <span class="status-badge excelente">Excelente</span>
+          </li>
+          <li>
+            <span>Média 7,0 - 8,9</span>
+            <span class="status-badge merito">Aprovado com Mérito</span>
+          </li>
+          <li>
+            <span>Média 6,0 - 6,9</span>
+            <span class="status-badge aprovado">Aprovado</span>
+          </li>
+          <li>
+            <span>Média 0,0 - 5,9</span>
+            <span class="status-badge reprovado">Reprovado</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <script>
+      // Validação em tempo real
+      const form = document.getElementById("notasForm");
+      const inputs = form.querySelectorAll('input[type="number"]');
+
+      inputs.forEach((input) => {
+        input.addEventListener("input", function () {
+          const valor = parseFloat(this.value);
+
+          if (isNaN(valor)) {
+            this.classList.remove("input-valid", "input-invalid");
+            return;
+          }
+
+          if (valor >= 0 && valor <= 10) {
+            this.classList.add("input-valid");
+            this.classList.remove("input-invalid");
+          } else {
+            this.classList.add("input-invalid");
+            this.classList.remove("input-valid");
+          }
+        });
+      });
+
+      // Validação no envio
+      form.addEventListener("submit", function (e) {
+        let valido = true;
+        const notas = ["nota1", "nota2", "nota3"];
+
+        notas.forEach((notaId) => {
+          const input = document.getElementById(notaId);
+          const valor = parseFloat(input.value);
+
+          if (isNaN(valor) || valor < 0 || valor > 10) {
+            valido = false;
+            input.classList.add("input-invalid");
+            input.focus();
+          }
+        });
+
+        if (!valido) {
+          e.preventDefault();
+          alert(
+            "⚠️ Por favor, verifique se todas as notas estão entre 0 e 10!"
+          );
+        }
+      });
+
+      // Preview da média em tempo real
+      let previewTimeout;
+      inputs.forEach((input) => {
+        input.addEventListener("input", function () {
+          clearTimeout(previewTimeout);
+          previewTimeout = setTimeout(calcularPreview, 300);
+        });
+      });
+
+      function calcularPreview() {
+        const n1 = parseFloat(document.getElementById("nota1").value) || 0;
+        const n2 = parseFloat(document.getElementById("nota2").value) || 0;
+        const n3 = parseFloat(document.getElementById("nota3").value) || 0;
+
+        if (n1 > 0 || n2 > 0 || n3 > 0) {
+          const media = (n1 + n2 + n3) / 3;
+          const btn = document.querySelector(".submit-btn");
+          btn.innerHTML = `🧮 Calcular (Preview: ${media.toFixed(1)})`;
+
+          setTimeout(() => {
+            btn.innerHTML = "🧮 Calcular Média e Verificar Aprovação";
+          }, 2000);
+        }
+      }
+    </script>
+  </body>
+</html>

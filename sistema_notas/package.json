@@ -1,0 +1,28 @@
+{
+  "name": "sistema_notas",
+  "version": "1.0.0",
+  "description": "Sistema web para cálculo de média de notas e aprovação de alunos",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "notas",
+    "media",
+    "aprovacao",
+    "escola",
+    "educacao",
+    "nodejs",
+    "express"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}

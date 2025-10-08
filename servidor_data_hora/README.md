@@ -28,22 +28,26 @@ Esta aplicação web exibe a data e hora atuais formatadas em português brasile
 ## 📦 Instalação e Execução
 
 ### Pré-requisitos
+
 - Node.js (versão 14 ou superior)
 - npm (gerenciador de pacotes)
 
 ### Passos para executar:
 
 1. **Navegue até o diretório**
+
    ```bash
    cd servidor_data_hora
    ```
 
 2. **Instale as dependências**
+
    ```bash
    npm install
    ```
 
 3. **Inicie o servidor**
+
    ```bash
    npm start
    ```
@@ -70,14 +74,17 @@ servidor_data_hora/
 ## 🌐 Rotas Disponíveis
 
 ### GET `/`
+
 - **Descrição:** Página principal com interface completa
 - **Retorna:** HTML com data/hora formatada e design moderno
 - **Recursos:** Auto-refresh, animações, informações detalhadas
 
 ### GET `/api/datetime`
+
 - **Descrição:** API REST para obter dados em JSON
 - **Retorna:** JSON com informações de data/hora
 - **Exemplo de resposta:**
+
 ```json
 {
   "success": true,
@@ -94,6 +101,7 @@ servidor_data_hora/
 ```
 
 ### GET `/simples`
+
 - **Descrição:** Versão simplificada da página
 - **Retorna:** HTML básico apenas com data/hora
 - **Uso:** Para integração ou visualização minimalista
@@ -101,30 +109,35 @@ servidor_data_hora/
 ## ⚙️ Configurações
 
 ### Fuso Horário
+
 - **Padrão:** America/Sao_Paulo (UTC-3)
 - **Formato:** 24 horas (HH:MM:SS)
 - **Idioma:** Português brasileiro
 
 ### Auto-Refresh
+
 - **Intervalo:** 30 segundos (página completa)
 - **Relógio visual:** 1 segundo (apenas display)
 
 ### Porta do Servidor
+
 - **Padrão:** 3001
 - **Configurável:** Via variável de ambiente `PORT`
 
 ## 🎨 Interface
 
 ### Versão Completa (`/`)
+
 - **Design:** Moderno com gradientes e animações
 - **Responsivo:** Adaptável para desktop e mobile
-- **Recursos:** 
+- **Recursos:**
   - Relógio com pulse animation
   - Cards informativos
   - Botão de atualização manual
   - Background gradient animado
 
 ### Versão Simples (`/simples`)
+
 - **Design:** Minimalista e funcional
 - **Uso:** Integração ou visualização básica
 - **Recursos:** Data, hora e informações essenciais
@@ -132,28 +145,33 @@ servidor_data_hora/
 ## 📱 Responsividade
 
 - ✅ **Desktop** - Layout otimizado para telas grandes
-- ✅ **Tablet** - Grid adaptável para telas médias  
+- ✅ **Tablet** - Grid adaptável para telas médias
 - ✅ **Mobile** - Interface compacta para smartphones
 - ✅ **Breakpoints** - CSS responsivo com media queries
 
 ## 🔧 Personalização
 
 ### Alterar Porta
+
 ```bash
 PORT=4000 npm start
 ```
 
 ### Alterar Fuso Horário
+
 Edite a variável `timeZone` no arquivo `server.js`:
+
 ```javascript
-timeZone: 'America/Recife'  // Exemplo para Recife
+timeZone: "America/Recife"; // Exemplo para Recife
 ```
 
 ### Alterar Intervalo de Auto-Refresh
+
 Modifique o valor em milissegundos no JavaScript:
+
 ```javascript
 setTimeout(() => {
-    window.location.reload();
+  window.location.reload();
 }, 10000); // 10 segundos
 ```
 
@@ -161,11 +179,11 @@ setTimeout(() => {
 
 ```javascript
 // Fetch da API
-fetch('/api/datetime')
-  .then(response => response.json())
-  .then(data => {
-    console.log('Data atual:', data.data.data);
-    console.log('Hora atual:', data.data.hora);
+fetch("/api/datetime")
+  .then((response) => response.json())
+  .then((data) => {
+    console.log("Data atual:", data.data.data);
+    console.log("Hora atual:", data.data.hora);
   });
 ```
 
@@ -182,11 +200,13 @@ Este projeto é licenciado sob a licença ISC.
 ## 🚀 Deploy
 
 ### Desenvolvimento Local
+
 ```bash
 npm run dev  # Com nodemon para auto-reload
 ```
 
 ### Produção
+
 ```bash
 npm start    # Servidor estável
 ```

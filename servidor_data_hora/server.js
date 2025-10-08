@@ -1,52 +1,52 @@
-const express = require('express');
-const path = require('path');
+const express = require("express");
+const path = require("path");
 
 // Inicializar o Express
 const app = express();
 const PORT = process.env.PORT || 3001;
 
 // Configurar middleware para servir arquivos estáticos
-app.use(express.static('public'));
+app.use(express.static("public"));
 
 // Função para formatar data e hora em português brasileiro
 function obterDataHoraAtual() {
-    const agora = new Date();
-    
-    // Opções para formatação da data
-    const opcoesData = {
-        weekday: 'long',
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-        timeZone: 'America/Sao_Paulo'
-    };
-    
-    // Opções para formatação da hora
-    const opcoesHora = {
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-        timeZone: 'America/Sao_Paulo',
-        hour12: false
-    };
-    
-    const dataFormatada = agora.toLocaleDateString('pt-BR', opcoesData);
-    const horaFormatada = agora.toLocaleTimeString('pt-BR', opcoesHora);
-    
-    return {
-        data: dataFormatada,
-        hora: horaFormatada,
-        timestamp: agora.getTime(),
-        iso: agora.toISOString(),
-        timezone: 'America/Sao_Paulo (UTC-3)'
-    };
+  const agora = new Date();
+
+  // Opções para formatação da data
+  const opcoesData = {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    timeZone: "America/Sao_Paulo",
+  };
+
+  // Opções para formatação da hora
+  const opcoesHora = {
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    timeZone: "America/Sao_Paulo",
+    hour12: false,
+  };
+
+  const dataFormatada = agora.toLocaleDateString("pt-BR", opcoesData);
+  const horaFormatada = agora.toLocaleTimeString("pt-BR", opcoesHora);
+
+  return {
+    data: dataFormatada,
+    hora: horaFormatada,
+    timestamp: agora.getTime(),
+    iso: agora.toISOString(),
+    timezone: "America/Sao_Paulo (UTC-3)",
+  };
 }
 
 // Rota principal - página HTML com data e hora
-app.get('/', (req, res) => {
-    const dataHora = obterDataHoraAtual();
-    
-    const html = `
+app.get("/", (req, res) => {
+  const dataHora = obterDataHoraAtual();
+
+  const html = `
     <!DOCTYPE html>
     <html lang="pt-br">
     <head>
@@ -244,31 +244,31 @@ app.get('/', (req, res) => {
         </script>
     </body>
     </html>`;
-    
-    res.send(html);
+
+  res.send(html);
 });
 
 // API endpoint para obter dados de data/hora em JSON
-app.get('/api/datetime', (req, res) => {
-    const dataHora = obterDataHoraAtual();
-    res.json({
-        success: true,
-        data: dataHora,
-        servidor: 'Node.js + Express',
-        versao: '1.0.0'
-    });
+app.get("/api/datetime", (req, res) => {
+  const dataHora = obterDataHoraAtual();
+  res.json({
+    success: true,
+    data: dataHora,
+    servidor: "Node.js + Express",
+    versao: "1.0.0",
+  });
 });
 
 // Rota para página de teste da API
-app.get('/teste', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'teste-api.html'));
+app.get("/teste", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "teste-api.html"));
 });
 
 // Rota para página simples (sem estilos)
-app.get('/simples', (req, res) => {
-    const dataHora = obterDataHoraAtual();
-    
-    const html = `
+app.get("/simples", (req, res) => {
+  const dataHora = obterDataHoraAtual();
+
+  const html = `
     <!DOCTYPE html>
     <html lang="pt-br">
     <head>
@@ -292,14 +292,14 @@ app.get('/simples', (req, res) => {
         <p><a href="/">← Voltar para versão completa</a></p>
     </body>
     </html>`;
-    
-    res.send(html);
+
+  res.send(html);
 });
 
 // Middleware de tratamento de erros
 app.use((err, req, res, next) => {
-    console.error('Erro no servidor:', err);
-    res.status(500).send(`
+  console.error("Erro no servidor:", err);
+  res.status(500).send(`
         <h1>Erro do Servidor</h1>
         <p>Ocorreu um erro interno. Tente novamente mais tarde.</p>
         <p><a href="/">← Voltar ao início</a></p>
@@ -308,7 +308,7 @@ app.use((err, req, res, next) => {
 
 // Middleware para rotas não encontradas
 app.use((req, res) => {
-    res.status(404).send(`
+  res.status(404).send(`
         <h1>Página Não Encontrada</h1>
         <p>A página solicitada não existe.</p>
         <p><a href="/">← Voltar ao início</a></p>
@@ -317,12 +317,12 @@ app.use((req, res) => {
 
 // Iniciar o servidor
 app.listen(PORT, () => {
-    console.log(`🚀 Servidor iniciado com sucesso!`);
-    console.log(`📅 Data/Hora: http://localhost:${PORT}`);
-    console.log(`🔗 API JSON: http://localhost:${PORT}/api/datetime`);
-    console.log(`📄 Versão simples: http://localhost:${PORT}/simples`);
-    console.log(`🧪 Teste da API: http://localhost:${PORT}/teste`);
-    console.log(`⏰ Servidor rodando na porta ${PORT}`);
+  console.log(`🚀 Servidor iniciado com sucesso!`);
+  console.log(`📅 Data/Hora: http://localhost:${PORT}`);
+  console.log(`🔗 API JSON: http://localhost:${PORT}/api/datetime`);
+  console.log(`📄 Versão simples: http://localhost:${PORT}/simples`);
+  console.log(`🧪 Teste da API: http://localhost:${PORT}/teste`);
+  console.log(`⏰ Servidor rodando na porta ${PORT}`);
 });
 
 module.exports = app;
